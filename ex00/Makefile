@@ -6,7 +6,7 @@
 #    By: jwuille <jwuille@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/17 14:16:44 by jwuille           #+#    #+#              #
-#    Updated: 2026/01/08 14:03:26 by jwuille          ###   ########.fr        #
+#    Updated: 2026/01/09 15:12:17 by jwuille          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ OBJ_DIR = obj
 
 SRC =	\
 		CheckType.cpp \
+		PrintLiteral.cpp \
 		ScalarConverter.cpp \
 		main.cpp
 

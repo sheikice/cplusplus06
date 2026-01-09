@@ -1,12 +1,21 @@
 #include "ScalarConverter.hpp"
 #include "CheckType.hpp"
 
-#include <iostream>
 #include <string>
+
+bool CheckType::checkNan(const std::string& literal)
+{
+	if (literal == "nan" || literal == "nanf" || literal == "+inf"
+		|| literal == "-inf" || literal == "+inff" || literal == "-inff")
+		return true;
+	return false;
+}
 
 bool CheckType::checkChar(const std::string& literal)
 {
-	if (literal.size() != 1)
+	if (literal == "")
+		return true;
+	if (literal.size() > 1)
 		return false;
 	if (std::isalnum(literal.at(0)) && std::isalpha(literal.at(0)) == false)
 		return false;
@@ -33,9 +42,8 @@ bool CheckType::checkDouble(const std::string& literal)
 
 int CheckType::checkType(const std::string& literal)
 {
-	std::cout << "[TEST: String is \"" << literal << "\"]\n";
-	// if (literal.empty() == true)
-	// 	return UNDEFINED ;
+	if (CheckType::checkNan(literal))
+		return UNDEFINED;
 	if (CheckType::checkChar(literal) == true)
 		return CHAR;
 	if (CheckType::checkFloat(literal) == true)
