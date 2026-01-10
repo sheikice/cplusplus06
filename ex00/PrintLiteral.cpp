@@ -1,10 +1,12 @@
 #include "PrintLiteral.hpp"
 #include "ScalarConverter.hpp"
 #include <iostream>
+#include <iomanip>
 #include <cstdlib>
 #include <limits.h>
 #include <limits>
 #include <cmath>
+#include <cerrno>
 
 void PrintLiteral::printLiteral(const std::string& literal, int type)
 {
@@ -65,11 +67,13 @@ void PrintLiteral::printChar(const std::string& literal)
 void PrintLiteral::printInt(const std::string& literal)
 {
 	char	*endptr;
-	long		nbr;
+	long	nbr;
+	bool	error = false;
 
 	nbr = strtol(literal.c_str(), &endptr, 10);
-	std::cout << "INT:" << *endptr << "\n";
-	if (endptr && *endptr)
+	if (errno == ERANGE || nbr < INT_MIN || nbr > INT_MAX)
+		error = true;
+	if (error == true || (endptr && *endptr))
 	{
 		std::cout << "char: impossible\n";
 		std::cout << "int: impossible\n";
@@ -84,28 +88,20 @@ void PrintLiteral::printInt(const std::string& literal)
 		std::cout << "char: Non displayable\n";
 	else
 		std::cout << "char: " << static_cast<char>(nbr) << "\n";
-	if (nbr > std::numeric_limits<int>::max() || nbr < std::numeric_limits<int>::min())
-	{
-		std::cout << "int: impossible\n";
-		std::cout << "float: impossible\n";
-		std::cout << "double: impossible\n";
-	}
-	else
-	{
-		std::cout << "int: " << static_cast<int>(nbr) << "\n";
-		std::cout << "float: " << static_cast<float>(nbr) << ".0f";
-		std::cout << "double: " << static_cast<double>(nbr) << ".0\n";
-	}
+	std::cout << "int: " << static_cast<int>(nbr) << "\n";
+	std::cout << "float: " << static_cast<float>(nbr) << ".0f\n";
+	std::cout << "double: " << static_cast<double>(nbr) << ".0\n";
 }
 
 void PrintLiteral::printFloat(const std::string& literal)
 {
 	char	*endptr;
-	double		nbr;
+	float	nbr;
 
-	nbr = strtod(literal.c_str(), &endptr);
+
+	nbr = strtof(literal.c_str(), &endptr);
 	// std::cout << nbr << " / " << *endptr << "\n";
-	if ((endptr && *endptr != 'f') || (endptr && *endptr && *(endptr + 1)))
+	if (errno == ERANGE || (endptr && *endptr != 'f') || (endptr && *endptr && *(endptr + 1)))
 	{
 		std::cout << "char: impossible\n";
 		std::cout << "int: impossible\n";
@@ -119,31 +115,29 @@ void PrintLiteral::printFloat(const std::string& literal)
 		std::cout << "char: Non displayable\n";
 	else
 		std::cout << "char: " << static_cast<char>(nbr) << "\n";
-	if (nbr > std::numeric_limits<float>::max() || nbr < std::numeric_limits<float>::min())
-	{
+	if (nbr < INT_MIN || nbr > INT_MAX)
 		std::cout << "int: impossible\n";
-		std::cout << "float: impossible\n";
-		std::cout << "double: impossible\n";
-	}
 	else
-	{
 		std::cout << "int: " << static_cast<int>(nbr) << "\n";
-		std::cout << "float: " << static_cast<float>(nbr);
-		if (std::floor(nbr) == nbr)
-			std::cout << ".0f\n";
-		else
-			std::cout << "f\n";
-		std::cout << "double: " << static_cast<double>(nbr) << "\n";
-	}
+	if (std::floor(nbr) == nbr)
+		std::cout << "float: " << std::setprecision(8) << static_cast<float>(nbr) << ".0f\n";
+	else
+		std::cout << "float: " << std::setprecision(8) << static_cast<float>(nbr) << "f\n";
+	if (std::floor(nbr) == nbr)
+		std::cout << "double: " << std::setprecision(8) << static_cast<double>(nbr) << ".0\n";
+	else
+		std::cout << "double: " << std::setprecision(8) << static_cast<double>(nbr) << "\n";
 }
 
 void PrintLiteral::printDouble(const std::string& literal)
 {
 	char	*endptr;
-	long		nbr;
+	double	nbr;
+	float	nbr_float;
 
-	nbr = strtol(literal.c_str(), &endptr, 10);
-	if (endptr && *endptr)
+	nbr = strtod(literal.c_str(), &endptr);
+	nbr_float = static_cast<float>(nbr);
+	if (errno == ERANGE || (endptr && *endptr))
 	{
 		std::cout << "char: impossible\n";
 		std::cout << "int: impossible\n";
@@ -151,14 +145,13 @@ void PrintLiteral::printDouble(const std::string& literal)
 		std::cout << "double: impossible\n";
 		return ;
 	}
-	std::cout << endptr << "\n";
 	if (nbr < CHAR_MIN || nbr > CHAR_MAX)
 		std::cout << "char: impossible\n";
 	else if (isprint(nbr) == false)
 		std::cout << "char: Non displayable\n";
 	else
 		std::cout << "char: " << static_cast<char>(nbr) << "\n";
-	if (nbr > std::numeric_limits<int>::max() || nbr < std::numeric_limits<int>::min())
+	if (nbr > std::numeric_limits<double>::max() || -nbr > std::numeric_limits<double>::max())
 	{
 		std::cout << "int: impossible\n";
 		std::cout << "float: impossible\n";
@@ -166,8 +159,21 @@ void PrintLiteral::printDouble(const std::string& literal)
 	}
 	else
 	{
-		std::cout << "int: " << static_cast<int>(nbr) << "\n";
-		std::cout << "float: " << static_cast<float>(nbr) << ".0f\n";
-		std::cout << "double: " << static_cast<double>(nbr) << ".0\n";
+		std::cout << "COUCOUuuuuuUUUU\n";
+		if (nbr < INT_MIN || nbr > INT_MAX)
+			std::cout << "int: impossible\n";
+		else
+			std::cout << "int: " << static_cast<int>(nbr) << "\n";
+		if (-nbr_float > std::numeric_limits<float>::max() || nbr_float > std::numeric_limits<float>::max())
+			std::cout << "float: impossible\n";
+		else if (floor(nbr) != nbr || nbr >= 1000000 || nbr <= -1000000)
+			std::cout << "float: " << std::setprecision(8) << static_cast<float>(nbr) << "f\n";
+		else
+			std::cout << "float: " << std::setprecision(8) << static_cast<float>(nbr) << ".0f\n";
+		// std::cout << nbr << " ]]]]\n";
+		if (std::floor(nbr) == nbr)
+			std::cout << "double: " << std::setprecision(8) << nbr << ".0\n";
+		else
+			std::cout << "double: " << std::setprecision(8) << static_cast<double>(nbr) << "\n";
 	}
 }
