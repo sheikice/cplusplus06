@@ -81,6 +81,8 @@ test_contains "-inff" "-inff"
 print_section "Tests Edge cases"
 
 test_contains "Overflow int" "2147483648"
+test_contains "Overflow int from float" "2147483648.0f"
+test_contains "Overflow int from double" "2147483648.0"
 test_contains "Overflow float" "350000000000000000000000000000000000000.f"
 test_contains "Overflow float from double conversion" "350000000000000000000000000000000000000."
 test_contains "Char out of bound (pos)" "200"
