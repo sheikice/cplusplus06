@@ -10,7 +10,7 @@
 
 static	const int	SCIENTIFIC_NOTATION = 9999999;
 static const double	EPSILON = 1e-9;
-static const float	INT_MAX_FROM_FLOAT = 2147483647.0f;
+static const float	INT_MAX_FROM_FLOAT = 2147483648.0f;
 
 void PrintLiteral::printLiteral(const std::string& literal, int type)
 {
@@ -93,11 +93,11 @@ void PrintLiteral::printInt(const std::string& literal)
 	else
 		std::cout << "char: " << static_cast<char>(nbr) << "\n";
 	std::cout << "int: " << static_cast<int>(nbr) << "\n";
-	if (std::abs(nbr) > SCIENTIFIC_NOTATION)
-		std::cout << "float: " << std::setprecision(7) << static_cast<float>(nbr) << "f\n";
-	else
+	if (std::abs(nbr) <= SCIENTIFIC_NOTATION)
 		std::cout << "float: " << std::setprecision(7) << static_cast<float>(nbr) << ".0f\n";
-	if (std::abs(nbr) < SCIENTIFIC_NOTATION)
+	else
+		std::cout << "float: " << std::setprecision(7) << static_cast<float>(nbr) << "f\n";
+	if (std::abs(nbr) <= SCIENTIFIC_NOTATION)
 		std::cout << "double: " << std::setprecision(7) << static_cast<double>(nbr) << ".0\n";
 	else
 		std::cout << "double: " << std::setprecision(7) << static_cast<double>(nbr) << "\n";
@@ -125,7 +125,7 @@ void PrintLiteral::printFloat(const std::string& literal)
 		std::cout << "char: Non displayable\n";
 	else
 		std::cout << "char: " << static_cast<char>(nbr) << "\n";
-	if (std::abs(nbr) > INT_MAX_FROM_FLOAT)
+	if (std::abs(nbr) >= INT_MAX_FROM_FLOAT)
 		std::cout << "int: impossible\n";
 	else
 		std::cout << "int: " << static_cast<int>(nbr) << "\n";
@@ -162,11 +162,11 @@ void PrintLiteral::printDouble(const std::string& literal)
 		std::cout << "char: Non displayable\n";
 	else
 		std::cout << "char: " << static_cast<char>(nbr) << "\n";
-	if (std::abs(nbr) > INT_MAX_FROM_FLOAT)
+	if (std::abs(nbr) >= INT_MAX_FROM_FLOAT)
 		std::cout << "int: impossible\n";
 	else
 		std::cout << "int: " << static_cast<int>(nbr) << "\n";
-	if (-nbr_float > std::numeric_limits<float>::max() || nbr_float > std::numeric_limits<float>::max())
+	if (std::abs(nbr_float) > std::numeric_limits<float>::max())
 		std::cout << "float: impossible\n";
 	else if (std::abs(std::floor(nbr) - nbr) < EPSILON && std::abs(nbr) <= SCIENTIFIC_NOTATION)
 		std::cout << "float: " << std::setprecision(7) << static_cast<float>(nbr) << ".0f\n";
