@@ -6,7 +6,7 @@
 #    By: jwuille <jwuille@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/17 14:16:44 by jwuille           #+#    #+#              #
-#    Updated: 2026/01/12 10:48:01 by jwuille          ###   ########.fr        #
+#    Updated: 2026/01/12 22:45:29 by jwuille          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ SRC =	\
 		ScalarConverter.cpp \
 		main.cpp
 
-CC = c++ -MD -std=c++98
+CC = clang++ -MD -std=c++98
 CFLAGS = -Wall -Werror -Wextra -g3
 NAME = convert
 
