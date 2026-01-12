@@ -25,6 +25,8 @@ bool CheckType::checkFloat(const std::string& literal)
 	size_t	fCheck = literal.find("f");	
 	size_t	dotCheck = literal.find(".");
 
+	if (literal.find("e") != std::string::npos)
+		return false;
 	if (dotCheck == std::string::npos || fCheck != literal.size() - 1)
 		return false;
 	if (dotCheck == 0 && literal.size() < 3)
@@ -34,6 +36,8 @@ bool CheckType::checkFloat(const std::string& literal)
 
 bool CheckType::checkDouble(const std::string& literal)
 {
+	if (literal.find("e") != std::string::npos)
+		return false;
 	if (literal.find(".") == std::string::npos)
 		return false;
 	if (literal.find("f") != std::string::npos)
