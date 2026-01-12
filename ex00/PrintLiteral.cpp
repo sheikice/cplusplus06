@@ -10,6 +10,7 @@
 
 static	const int	SCIENTIFIC_NOTATION = 9999999;
 static const double	EPSILON = 1e-9;
+static const float	INT_MAX_FROM_FLOAT = 2147483647.0f;
 
 void PrintLiteral::printLiteral(const std::string& literal, int type)
 {
@@ -85,7 +86,7 @@ void PrintLiteral::printInt(const std::string& literal)
 		std::cout << "double: impossible\n";
 		return ;
 	}
-	if (nbr < CHAR_MIN || nbr > CHAR_MAX)
+	if (std::abs(nbr) > CHAR_MAX)
 		std::cout << "char: impossible\n";
 	else if (isprint(static_cast<unsigned char>(nbr)) == false)
 		std::cout << "char: Non displayable\n";
@@ -124,7 +125,7 @@ void PrintLiteral::printFloat(const std::string& literal)
 		std::cout << "char: Non displayable\n";
 	else
 		std::cout << "char: " << static_cast<char>(nbr) << "\n";
-	if (nbr < INT_MIN || nbr > INT_MAX)
+	if (std::abs(nbr) > INT_MAX_FROM_FLOAT)
 		std::cout << "int: impossible\n";
 	else
 		std::cout << "int: " << static_cast<int>(nbr) << "\n";
@@ -155,13 +156,13 @@ void PrintLiteral::printDouble(const std::string& literal)
 		std::cout << "double: impossible\n";
 		return ;
 	}
-	if (nbr < CHAR_MIN || nbr > CHAR_MAX)
+	if (std::abs(nbr) > CHAR_MAX)
 		std::cout << "char: impossible\n";
 	else if (isprint(static_cast<unsigned char>(nbr)) == false)
 		std::cout << "char: Non displayable\n";
 	else
 		std::cout << "char: " << static_cast<char>(nbr) << "\n";
-	if (nbr < INT_MIN || nbr > INT_MAX)
+	if (std::abs(nbr) > INT_MAX_FROM_FLOAT)
 		std::cout << "int: impossible\n";
 	else
 		std::cout << "int: " << static_cast<int>(nbr) << "\n";
